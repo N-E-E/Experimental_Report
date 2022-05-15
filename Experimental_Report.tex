@@ -1,0 +1,303 @@
+\documentclass[supercite]{Experimental_Report}
+
+\title{~~~~~~数据结构实验~~~~~~}
+\author{君の名}
+%\coauthor{张三、李四}
+\school{计算机科学与技术学院}
+\classnum{你的班级}
+\stunum{你的学号}
+%\costunum{U202115631、U202115631}
+\instructor{你的老师} % 该系列实验报告模板有华科大计院教师陈加忠制作
+\date{1145年1月4日}
+
+\usepackage{algorithm, multirow}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{framed}
+\usepackage{mathtools}
+\usepackage{subcaption}
+\usepackage{xltxtra} %提供了针对XeTeX的改进并且加入了XeTeX的LOGO, 自动调用xunicode宏包(提供Unicode字符宏)
+\usepackage{bm}
+\usepackage{tikz}
+\usepackage{tikzscale}
+\usepackage{pgfplots}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{subfiles}
+%\usepackage{subfigure}
+%\usepackage{enumerate}
+
+%%%%%%settings%%%%%%%%%
+\pgfplotsset{compat=1.16}
+%\setmonofont{Consolas}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+	backgroundcolor=\color{white},   % choose the background color
+	basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
+	columns=fullflexible,
+	breaklines=true,                 % automatic line breaking only atwhitespace
+	captionpos=b,                    % sets the caption-position to bottom
+	tabsize=4,
+	commentstyle=\color{mygreen},    % comment style
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	keywordstyle=\color{blue},       % keyword style
+	stringstyle=\color{mymauve}\ttfamily,     % string literal style
+	frame=single,
+	rulesepcolor=\color{red!20!green!20!blue!20},
+	% identifierstyle=\color{red},
+	language=c++,
+}
+
+
+%%%%%伪代码：请参考算法\ref{alg:1}，也可以参考算法\ref{alg:2}。%%%%%
+%
+%\begin{shaded*}\begin{alg}{一个复杂算法}
+%		\label{alg:1}
+%		\begin{algorithmic}
+%			\Input Two numbers $a$ and $b$
+%			\Output The sum of $a$ and $b$
+%			\Procedure{A-Plus-B}{$a, b$}
+%			\If $a = 0$
+%			\State \Return $b$
+%			\EndIf
+%			\State $res \gets 0$
+%			\While{$b \neq 0$}
+%			\State Increase $res$ by $1$
+%			\State $b \gets b - 1$
+%			\EndWhile
+%			\State \Return $res$
+%			\EndProcedure
+%		\end{algorithmic}
+%\end{alg}\end{shaded*}
+%
+%\begin{algorithm}[h] 
+%	\caption{一个更复杂算法}
+%	\begin{algorithmic}[1]
+%		\State Initialization: $I_{xy}$, $z_{f}=Zeros(128, 128)$; 
+%		\For{$0\leq n \textless N$}
+%		\State $i=\lfloor x_n \rfloor+64$, $j=\lfloor y_n \rfloor + 64$
+%		\If{$z_n<0$ and $|z_n|>|z_{f}(i,j)|$};
+%		\State $z_{f}(i,j)=z_n$;
+%		\EndIf
+%		\State $I_{xy}(i,j)=z_{f}(i,j)$;
+%		\EndFor 
+%	\end{algorithmic}\label{alg:2}
+%\end{algorithm}
+
+%%%%%%自定义命令：插入测试表格%%%%%%%%%
+\newcommand{\TestTable}[5]{
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			函数名    & 正常样例 & 是否通过 & 异常样例 & 是否通过 \\ \hline
+			#1 & #2   & #3    & #4    & #5   \\ \hline
+		\end{tabular}
+	\end{table}
+}
+
+%%%%%%自定义命令：插入并排测试图片%%%%%%%%%
+\newcommand{\ResultDoubleFigure}[3]{
+\begin{figure}[H]
+	\centering
+	\subfloat[正常样例]{
+		\includegraphics[scale=0.3]{#1}}
+	\hspace{0.5cm}
+	\subfloat[异常样例]{
+		\includegraphics[scale=0.3]{#2}}
+	\caption{#3}
+\end{figure}
+}
+
+%%%%%%自定义命令：插入单张图片%%%%%%%%%
+\newcommand{\InsertSingleFigure}[3]{
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=#2]{#1}
+		\caption{#3}
+	\end{figure}
+}
+
+%%%%%%自定义命令：插入上下两排共两张图片%%%%%%%
+\newcommand{\InsertDoubleFigure}[3]{
+	\begin{figure}[H]
+		\centering
+		\subfloat[正常样例]{
+			\includegraphics[scale=0.5]{#1}}
+		\\
+		\subfloat[异常样例]{
+			\includegraphics[scale=0.5]{#2}}
+		\caption{测试结果-#3}
+	\end{figure}
+}
+
+
+%%%%%%%%%%其他一些自定义命令%%%%%%%%%%%
+
+%%%%%%%%要插入单张带交叉引用的图片，可以使用这个模板%%%%%%%%%%%
+\newcommand{\cfig}[4]{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[scale=#2]{#1}
+    \caption{#3}
+    \label{fig:#4}
+  \end{figure}
+}
+
+\newcommand{\sfig}[3]{
+  \begin{subfigure}[b]{#2\textwidth}
+    \includegraphics[width=\textwidth]{images/#1.tikz}
+    \caption{#3}
+    \label{fig:#1}
+  \end{subfigure}
+}
+
+\newcommand{\xfig}[3]{
+  \begin{figure}[htb]
+    \centering
+    #3
+    \caption{#2}
+    \label{fig:#1}
+  \end{figure}
+}
+
+\newcommand{\rfig}[1]{\autoref{fig:#1}}
+\newcommand{\ralg}[1]{\autoref{alg:#1}}
+\newcommand{\rthm}[1]{\autoref{thm:#1}}
+\newcommand{\rlem}[1]{\autoref{lem:#1}}
+\newcommand{\reqn}[1]{\autoref{eqn:#1}}
+\newcommand{\rtbl}[1]{\autoref{tbl:#1}}
+
+\algnewcommand\Null{\textsc{null }}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\Output{\item[\algorithmicoutput]}
+\algnewcommand\algorithmicbreak{\textbf{break}}
+\algnewcommand\Break{\algorithmicbreak}
+\algnewcommand\algorithmiccontinue{\textbf{continue}}
+\algnewcommand\Continue{\algorithmiccontinue}
+\algnewcommand{\LeftCom}[1]{\State $\triangleright$ #1}
+
+\newtheorem{thm}{定理}[section]
+\newtheorem{lem}{引理}[section]
+
+\colorlet{shadecolor}{black!15}
+
+\theoremstyle{definition}
+\newtheorem{alg}{算法}[section]
+
+\def\thmautorefname~#1\null{定理~#1~\null}
+\def\lemautorefname~#1\null{引理~#1~\null}
+\def\algautorefname~#1\null{算法~#1~\null}
+
+\begin{document}
+
+\maketitle
+
+\clearpage
+
+\pagenumbering{Roman}
+
+\tableofcontents[level=2]
+
+\clearpage
+
+\pagenumbering{arabic}
+
+\section{基于链式存储结构的线性表实现}
+
+\subsection{问题描述}
+	这里可以写一段摘要、导论的感觉。然后就是把任务书的东西复制过来。
+	\begin{enumerate}
+		\item 初始化表：函数名称是InitList(L)；初始条件是线性表L不存在；操作结果是构
+		造一个空的线性表
+		\item 销毁表：函数名称是DestroyList(L)；初始条件是线性表L已存在；操作结果是
+		销毁线性表L
+		\item 清空表：函数名称是ClearList(L)；初始条件是线性表L已存在；操作结果是将L
+		重置为空表
+		\item ......
+	\end{enumerate}
+
+\subsection{系统设计}
+	这里自己说明吧。大概讲讲思路画下图就好了。
+
+\subsection{系统实现}
+	这里就是讲算法思路，可以画下图用下伪代码。我用的形式见下：
+	\begin{enumerate}
+		\item InitList(L): 用malloc函数为链表分配空间即可。注意判断链表是否已存在。
+		\item DestroyList(L): 使用free函数将所有分配空间的节点依次释放即可。注意判
+		空。
+		\item ClearList(L): 用free函数释放除头节点的空间即可。注意判空。
+		\item ......
+	\end{enumerate}
+	
+\subsection{系统测试}
+	这里我的形式是一张测试表格然后附上测试效果图。插入表格和插入并排图的函数我已经抽
+	象出来，怎么用已经写在readme里面了。
+	\begin{enumerate}
+		\item 新建一张线性表\par
+		\TestTable{NewList}{1 2 -5 3 4 -7 -3 9 0}
+		{通过}{None}{None}
+		实测结果：
+		\InsertSingleFigure{images/链表测试结果/测试1-1}{0.5}{测试结果-1}
+		\item 删除一张线性表\par
+		\TestTable{DelList}{1}{通过}{3}{通过}
+		实测结果：
+		\InsertDoubleFigure{images/链表测试结果/测试2-1}
+		{images/链表测试结果/测试2-2}{2}
+		\item ......
+	\end{enumerate}
+
+\subsection{实验小结}
+    写小结有手就行。直接写就行了。
+
+\newpage
+
+\section{基于二叉链表的二叉树实现}
+参考上一节就可以。
+\subsection{问题描述}
+
+\subsection{系统实现}
+
+\subsection{系统测试}
+
+\subsection{实验小结}
+
+
+\newpage
+
+\section{课程的收获和建议}
+
+\subsection{基于顺序存储结构的线性表实现}
+
+\subsection{基于链式存储结构的线性表实现}
+
+\subsection{基于二叉链表的二叉树实现}
+
+\subsection{基于邻接表的图实现}
+
+\newpage
+
+\nocite{*} %% 作用是不对文献进行引用，但可以生成文献列表
+
+\bibliographystyle{Experimental\_Report}
+\bibliography{Experimental_Report}
+\setcounter{secnumdepth}{0}
+\appendix
+
+%%附录部分开始%%
+	\subfile{charpter1.tex}
+\newpage
+	\subfile{charpter2.tex}
+\newpage
+	\subfile{charpter3.tex}
+\newpage
+	\subfile{charpter4.tex}
+
+\end{document}
